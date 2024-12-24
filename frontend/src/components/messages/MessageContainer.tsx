@@ -16,8 +16,8 @@ function MessageContainer() {
       ) : (
         <>
           {/* receiver name header (i.e. who you're chatting with) */}
-          <div className="bg-slate-500 px-4 py-2 mb-2">
-            <span className="text-gray-900 font-bold">
+          <div className="bg-slate-700 px-4 py-2 mb-2">
+            <span className="text-white font-bold">
               {selectedConversation.fullName}
             </span>
           </div>
