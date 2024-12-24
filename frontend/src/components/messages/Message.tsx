@@ -1,23 +1,35 @@
-function Message() {
+import { useAuthContext } from "../../context/AuthContext";
+import { extractTime } from "../../utils/extractTime";
+import useConversation from "../../zustand/useConversation";
+
+function Message({ message }: { message: MessageType }) {
+  const { selectedConversation } = useConversation();
+  const { authUser } = useAuthContext();
+
+  const fromMe = message?.senderId === authUser?.id;
+
+  const profileImage = fromMe
+    ? authUser?.profilePic
+    : selectedConversation?.profilePic;
+
+  const chatClass = fromMe ? "chat-end" : "chat-start";
+
   return (
     // chat-end: sent by me
     // chat-start: sent by other person
-    <div className="chat chat-end">
+    <div className={`chat ${chatClass}`}>
       <div className="chat-image avatar">
         <div className="w-10 rounded-full">
-          <img
-            src="https://avatar.iran.liara.run/public"
-            alt="chat bubble component"
-          />
+          <img src={profileImage} alt="chat bubble component" />
         </div>
       </div>
       {/* message content */}
-      <div className={`chat-bubble text-white bg-blue-500`}>yo wys</div>
+      <div className={`chat-bubble text-white bg-blue-500`}>{message.body}</div>
       {/* timestamp */}
       <div
         className={`chat-footer text-slate-300 opacity-50 text-xs flex gap-1 items-center`}
       >
-        1:21
+        {extractTime(message.createdAt)}
       </div>
     </div>
   );
